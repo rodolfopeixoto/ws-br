@@ -73,7 +73,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     context "when is not updated" do
       before(:each) do
         @user = FactoryGirl.create :user
-        patch :update, { id: @user.id,
+        patch :update, params: { id: @user.id,
                          user: { email: "bademailsx.com" } }, format: :json
       end
 

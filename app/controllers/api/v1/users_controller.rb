@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
 
+  before_action :set_user, only: [:show,:update,:destroy]
   respond_to :json
 
   def show
@@ -35,5 +36,9 @@ class Api::V1::UsersController < ApplicationController
   private
     def user_params
       params.require(:user).permit(:email, :password, :password_confirmation)
+    end
+
+    def set_user
+      user = User.find(params[:id])
     end
 end
