@@ -5,6 +5,8 @@ services:
     environment:
       - POSTGRES_USER=wp-test
       - POSTGRES_PASSWORD=
+    ports:
+      - '5432:5432'
   ws_br:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'

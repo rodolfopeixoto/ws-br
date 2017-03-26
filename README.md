@@ -12,7 +12,7 @@ Busco República The system requires:
 
 Front-end
 
-- gem materialize-sass
+- React
 
 Metricas
 
