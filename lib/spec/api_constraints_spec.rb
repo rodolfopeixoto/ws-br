@@ -12,7 +12,7 @@ describe ApiConstraints do
     end
 
     it "returns the default version when 'default' option is specified" do
-      request = double(host: 'api.ws-br.dev')
+      request = double(host: 'api.buscorepublica.me:3000')
       expect(api_constraints_v2.matches?(request)).to be true
     end
   end
