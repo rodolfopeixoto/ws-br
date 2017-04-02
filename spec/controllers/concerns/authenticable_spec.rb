@@ -20,4 +20,20 @@ describe Authenticable do
     end
 
   end
+
+  describe "#authenticate_with_token" do
+    before do
+      @user = FactoryGirl.create :user
+      allow(authentication).to receive(:current_user) {nil}
+      allow(response).to receive(:response_code) {401}
+      allow(response).to receive(:body) { {"errors" => "Not authenticated"}.to_json }
+      allow(authentication).to receive(:response) { response }
+    end
+
+    it "render a json error message" do
+      expect(json_response[:errors]).to eql "Not authenticated"
+    end
+
+    it { should respond_with 401 }
+  end
 end
