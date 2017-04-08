@@ -8,10 +8,6 @@ FactoryGirl.define do
      price             { rand() * 100 }
      description       {  FFaker::Lorem.sentence(1) }
      published false
-     user_id "1"
-  end
-
-  trait :invalid do
-    title { nil }
+     user
   end
 end
