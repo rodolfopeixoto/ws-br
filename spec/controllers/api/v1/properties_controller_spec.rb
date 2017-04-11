@@ -69,4 +69,60 @@ RSpec.describe Api::V1::PropertiesController, type: :controller do
       it { should respond_with 422 }
     end
   end
+
+  describe "PUT/PATCH" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      @property = FactoryGirl.create :property, user: @user
+      api_authorization_header @user.auth_token
+    end
+
+    context "when is successfully updated" do
+      before(:each) do
+        patch :update, params: { user_id: @user.id, id: @property.id,
+               property: { title: "Republica" } }, format: :json
+      end
+
+      it "renders the json representation for the updated user" do
+        property_response = json_response
+        expect(property_response[:title]).to eql("Republica")
+      end
+
+      it { should respond_with 200 }
+    end
+
+    context "when is not updated" do
+      before(:each) do
+        patch :update, params: { user_id: @user.id, id: @property.id,
+                                property: { price: "two hundred" } }
+      end
+
+      it "renders an errors json" do
+        property_response = json_response
+        expect(property_response).to have_key(:errors)
+      end
+
+      it "renders the json errors on whye the user could note be created" do
+        property_response = json_response
+        expect(property_response[:errors][:price]).to include "is not a number"
+      end
+
+      it { should respond_with 422 }
+    end
+  end
+
+
+  describe "DELETE #destroy" do
+
+    before(:each) do
+      @user = FactoryGirl.create :user
+      @property = FactoryGirl.create :property, user: @user
+      api_authorization_header @user.auth_token
+      delete :destroy, params: { user_id: @user.id, id: @property.id }
+    end
+
+    it { should respond_with 204 }
+
+  end
+
 end

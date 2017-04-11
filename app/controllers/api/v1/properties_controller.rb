@@ -1,5 +1,5 @@
 class Api::V1::PropertiesController < ApplicationController
-  before_action :authenticate_with_token!, only: [:create]
+  before_action :authenticate_with_token!, only: [:create,:update]
   respond_to :json
 
   def index
@@ -17,6 +17,21 @@ class Api::V1::PropertiesController < ApplicationController
     else
       render json: { errors: property.errors }, status: 422
     end
+  end
+
+  def update
+    property = current_user.properties.find(params[:id])
+    if property.update(property_params)
+      render json: property, status: 200, location: [:api, property]
+    else
+      render json: { errors: property.errors }, status: 422
+    end
+  end
+
+  def destroy
+    property = current_user.properties.find(params[:id])
+    property.destroy
+    head 204
   end
 
   private
